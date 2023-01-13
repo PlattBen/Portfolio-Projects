@@ -12,9 +12,6 @@ Order by 3,4
 
 
 
-
-
-
 --select data that we will be using
 
 Select Location, date, total_cases, new_cases, total_deaths, population
@@ -26,11 +23,7 @@ Order by 1,2
 
 
 
-
-
-
---looking at total cases vs total deaths
---likelyhood of dying if you contract COVID
+--looking at total cases vs total deaths (likelyhood of dying if you contract COVID)
 
 Select Location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as DeathPercentage
 From [Portfolio Project COVID]..['Covid Deaths$']
@@ -42,19 +35,12 @@ Order by 1,2
 
 
 
-
-
-
---looking at total cases vs population
---percentage of population that contracts covid
+--looking at total cases vs population (percentage of population that contracts covid)
 
 Select Location, date, population, total_cases, (total_cases/population)*100 as ContractionPercentage
 From [Portfolio Project COVID]..['Covid Deaths$']
 --where location like '%states%'
 Order by 1,2
-
-
-
 
 
 
@@ -67,9 +53,6 @@ From [Portfolio Project COVID]..['Covid Deaths$']
 --where location like '%states%'
 Group by Location, population
 Order by ContractionPercentage desc
-
-
-
 
 
 
@@ -88,9 +71,6 @@ Order by TotalDeathCount desc
 
 
 
-
-
-
 --Break down by continent
 
 -- showing continents with the highest death count per population
@@ -101,9 +81,6 @@ From [Portfolio Project COVID]..['Covid Deaths$']
 Where continent is not null
 Group by continent
 Order by TotalDeathCount desc
-
-
-
 
 
 
@@ -129,10 +106,6 @@ Order by 1,2
 
 
 
-
-
-
-
 --looking at total population vs vaccinations
 
 Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
@@ -144,9 +117,6 @@ Join [Portfolio Project COVID]..['Covid Vaccinations$'] vac
 	and dea.date = vac.date
 where dea.continent is not null
 order by 2,3
-
-
-
 
 
 
@@ -185,10 +155,7 @@ From PopvsVac
 
 
 
-
-
-
---Max number of Vaccinations
+--Max number of Vaccinations (displays % as part of population, factoring in every new vac, not new person vaccinated)
 
 With PopvsVac (continent, location, population, new_vaccinations, RollingPeopleVaccinated)
 as
@@ -204,11 +171,8 @@ where dea.continent is not null
 and new_vaccinations is not null
 --order by 2,3
 )
-Select *,(RollingPeopleVaccinated/population)*100
+Select *,(RollingPeopleVaccinated/population)*100 as "Vaccinations/population"
 From PopvsVac
-
-
-
 
 
 
@@ -239,9 +203,6 @@ Join [Portfolio Project COVID]..['Covid Vaccinations$'] vac
 --order by 2,3
 Select *,(RollingPeopleVaccinated/population)*100
 From #PercentPopulationVaccinated
-
-
-
 
 
 
